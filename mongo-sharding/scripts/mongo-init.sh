@@ -57,9 +57,12 @@ sh.shardCollection("somedb.helloDoc", { _id: "hashed" });
 sleep 5
 
 echo "init"
-docker exec -t mongos_router mongosh --port 27020 --eval '
+docker exec -i mongos_router mongosh --port 27020 <<EOF
 use somedb;
-for(var i = 0; i < 1000; i++) {
-    db.helloDoc.insertOne({age:i, name:"ly"+i})
+for (let i = 0; i < 1000; i++) {
+    db.helloDoc.insertOne({age: i, name: "ly" + i});
 }
-'
+EOF
+
+sleep 5
+echo "Initialization completed"
