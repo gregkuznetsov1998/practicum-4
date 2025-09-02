@@ -13,7 +13,6 @@ rs.initiate(
 );
 '
 
-# Ожидание готовности config server
 until docker exec configSrv mongosh --port 27017 --eval "rs.status().ok" --quiet; do
   sleep 5
 done
@@ -47,7 +46,6 @@ rs.initiate(
 );
 '
 
-# Ожидание готовности шардов
 for shard in shard1_primary:27018 shard2_primary:27019; do
   until docker exec ${shard%:*} mongosh --port ${shard#*:} --eval "rs.status().ok && rs.status().members.find(m => m.state === 1)" --quiet; do
     sleep 5
@@ -67,7 +65,6 @@ db.createCollection("helloDoc");
 sh.shardCollection("somedb.helloDoc", { _id: "hashed" });
 '
 
-# Ожидание готовности кластера
 until docker exec mongos_router mongosh --port 27020 --eval "sh.status().ok" --quiet; do
   sleep 5
 done
