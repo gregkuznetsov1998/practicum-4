@@ -81,6 +81,39 @@
 - Преимущества: Равномерное распределение нагрузки  
 - Риски: Нет географической локализации  
 
+#### **Использование реплик в MongoDB**  
+
+**Коллекция `orders`:**
+- Операции чтения на secondary: 
+  * Просмотр истории заказов
+  * Аналитика и отчетность
+  * Статистические запросы
+- Операции только на primary:
+  * Создание новых заказов
+  * Обновление статуса заказа
+  * Проверка актуального статуса для выполнения операций
+- Допустимая задержка репликации: до 5 минут (для аналитических запросов)
+
+**Коллекция `products`:**
+- Операции чтения на secondary:
+  * Просмотр каталога товаров
+  * Поиск и фильтрация товаров
+  * Чтение описаний товаров
+- Операции только на primary:
+  * Обновление остатков товаров
+  * Изменение цен
+  * Модификация атрибутов товаров
+- Допустимая задержка репликации: до 1 секунды (для обеспечения актуальности данных о наличии)
+
+**Коллекция `carts`:**
+- Операции чтения на secondary: нет
+- Операции только на primary:
+  * Все операции чтения и записи
+  * Добавление товаров в корзину
+  * Обновление количества товаров
+  * Слияние корзин
+- Допустимая задержка репликации: 0 (требуется строгая консистентность)
+
 #### **Команды шардирования MongoDB**  
 ```js
 use ecommerce_db  
@@ -165,6 +198,7 @@ sh.shardCollection("ecommerce_db.helloDoc", { _id: "hashed" });
 - Риски: Неравномерное распределение для плотных регионов  
 
 #### **Команды создания таблиц Cassandra**  
+```sql
 CREATE TABLE carts (
     user_id UUID,
     created_at TIMESTAMP,
@@ -174,7 +208,9 @@ CREATE TABLE carts (
     expires_at TIMESTAMP,
     PRIMARY KEY (user_id, created_at)
 ) WITH CLUSTERING ORDER BY (created_at DESC);
+```
 
+```sql
 CREATE TABLE products (
     category TEXT,
     price DECIMAL,
@@ -184,7 +220,9 @@ CREATE TABLE products (
     attributes MAP<TEXT, TEXT>,
     PRIMARY KEY (category, price)
 );
+```
 
+```sql
 CREATE TABLE orders (
     geo_zone TEXT,
     order_date TIMESTAMP,
@@ -195,6 +233,7 @@ CREATE TABLE orders (
     status TEXT,
     PRIMARY KEY (geo_zone, order_date)
 ) WITH CLUSTERING ORDER BY (order_date DESC);
+```
 
 #### **CQL запросы для управления шардированием**  
 ```sql

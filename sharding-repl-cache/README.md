@@ -9,7 +9,22 @@ docker compose up -d
 ```
 
 ### Инициализация шардирования, заполняем mongodb данными
+Если в логах ошибка featureCompatibilityVersion, нужно очистить старые volume, которые остались от mongo старых версий
+```shell
+docker volume rm mongo-sharding-repl_config-data mongo-sharding-repl_shard1-primary-data mongo-sharding-repl_shard1-secondary1-data mongo-sharding-repl_shard1-secondary2-data mongo-sharding-repl_shard2-primary-data mongo-sharding-repl_shard2-secondary1-data mongo-sharding-repl_shard2-secondary2-data
+```
+Запуск приложения
+```shell
+docker compose up -d
+```
 
+### Инициализация шардирования, заполняем mongodb данными
+Добавить права на исполнение скрипта инициализации
+```shell
+chmod +x mongo-init.sh
+```
+
+Запуск инициализации
 ```shell
 ./scripts/mongo-init.sh
 ```

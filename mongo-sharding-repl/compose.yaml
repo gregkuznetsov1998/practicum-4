@@ -2,7 +2,7 @@ version: '3'
 name: mongo-sharding-repl
 services:
   configSrv:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: configSrv 
     restart: always
     networks:
@@ -25,7 +25,7 @@ services:
       start_period: 10s
 
   shard1_primary:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard1_primary
     restart: always
     networks:
@@ -48,7 +48,7 @@ services:
       start_period: 10s
 
   shard1_secondary1:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard1_secondary1
     restart: always
     networks:
@@ -71,7 +71,7 @@ services:
       start_period: 10s
 
   shard1_secondary2:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard1_secondary2
     restart: always
     networks:
@@ -94,7 +94,7 @@ services:
       start_period: 10s
 
   shard2_primary:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard2_primary
     restart: always
     networks:
@@ -117,7 +117,7 @@ services:
       start_period: 10s
 
   shard2_secondary1:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard2_secondary1
     restart: always
     networks:
@@ -140,7 +140,7 @@ services:
       start_period: 10s
 
   shard2_secondary2:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard2_secondary2
     restart: always
     networks:
@@ -163,7 +163,7 @@ services:
       start_period: 10s
   
   mongos_router:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: mongos_router
     restart: always
     ports:

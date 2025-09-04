@@ -2,7 +2,7 @@ version: '3'
 name: mongo-sharding
 services:
   configSrv:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: configSrv 
     restart: always
     ports:
@@ -27,7 +27,7 @@ services:
       start_period: 10s
 
   shard1:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard1
     restart: always
     ports:
@@ -52,7 +52,7 @@ services:
       start_period: 10s
 
   shard2:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: shard2
     restart: always
     ports:
@@ -77,7 +77,7 @@ services:
       start_period: 10s
   
   mongos_router:
-    image: mongo:latest
+    image: mongo:8.0.13
     container_name: mongos_router
     restart: always
     ports:
