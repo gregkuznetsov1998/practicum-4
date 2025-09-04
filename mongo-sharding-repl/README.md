@@ -14,9 +14,12 @@ docker compose up -d
 ```
 
 ### Инициализация шардирования, заполняем mongodb данными
+Добавить права на исполнение скрипта инициализации
 ```shell
 chmod +x mongo-init.sh
 ```
+
+Запуск инициализации
 ```shell
 ./scripts/mongo-init.sh
 ```
